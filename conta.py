@@ -42,20 +42,20 @@ class Conta(object):
 		self._historico = historico
 
 	def depositar(self, valor):
-		self.saldo += valor
+		self._saldo += valor
 		self.historico.trasacoes.append("deposito de {}".format(valor))
 
 	def saca(self, valor):
-		if (self.saldo < valor):
+		if (self._saldo < valor):
 			return False
 		else:
-			self.saldo -= valor
+			self._saldo -= valor
 			self.historico.trasacoes.append("saque de {}".format(valor))
 			return True
 
 	def extrato(self):
-		print("numero: {}\nsaldo: {}".format(self.numero, self.saldo))
-		self.historico.trasacoes.append("extrato - saldo de {}".format(self.saldo))
+		print("numero: {}\nsaldo: {}".format(self.numero, self._saldo))
+		self.historico.trasacoes.append("extrato - saldo de {}".format(self._saldo))
 
 	def transfere(self, destino, valor):
 		retirou = self.saca(valor)

@@ -1,4 +1,7 @@
 class Cliente(object):
+
+	__slots__ = ["_nome", "_sobrenome", "_cpf"]
+
 	def __init__(self, nome, sobrenome, cpf):
 		self._nome = nome
 		self._sobrenome = sobrenome

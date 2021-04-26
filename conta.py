@@ -2,12 +2,21 @@ from historico import Historico
 
 
 class Conta(object):
+
+	_totalContas = 0
+	__slots__ = ["_numero", "_titular", "_saldo", "_limite", "_historico"]
+
 	def __init__(self, numero, cliente, saldo, limite=1000):
 		self._numero = numero
 		self._titular = cliente
 		self._saldo = saldo
 		self._limite = limite
 		self._historico = Historico()
+		_totalContas += 1
+
+	@staticmethod
+	def getTotalContas():
+		return Conta()._totalContas
 
 	@property
 	def numero (self):

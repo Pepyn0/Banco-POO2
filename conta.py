@@ -12,11 +12,11 @@ class Conta(object):
 		self._saldo = saldo
 		self._limite = limite
 		self._historico = Historico()
-		_totalContas += 1
+		Conta._totalContas += 1
 
 	@staticmethod
 	def getTotalContas():
-		return Conta()._totalContas
+		return Conta._totalContas
 
 	@property
 	def numero (self):

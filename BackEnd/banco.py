@@ -1,3 +1,4 @@
+from BackEnd.conta import Conta
 class Banco(object):
 	__slots__ = ["_contas"]
 
@@ -10,7 +11,7 @@ class Banco(object):
 				return p
 		return None
 
-	def cadastrar(self,conta):
+	def cadastrar(self,conta: Conta):
 		existe = self.buscar(conta.titular.cpf)
 		if (existe):
 			return False

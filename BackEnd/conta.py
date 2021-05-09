@@ -1,4 +1,5 @@
 from BackEnd.historico import Historico
+from BackEnd.cliente import Cliente
 
 
 class Conta(object):
@@ -6,7 +7,7 @@ class Conta(object):
 	_totalContas = 0
 	__slots__ = ["_numero", "_titular", "_saldo", "_limite", "_historico"]
 
-	def __init__(self, numero, cliente, saldo, limite=1000):
+	def __init__(self, numero, cliente: Cliente, saldo, limite=1000):
 		self._numero = numero
 		self._titular = cliente
 		self._saldo = saldo

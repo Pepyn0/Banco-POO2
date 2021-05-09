@@ -22,3 +22,7 @@ class Cliente(object):
 	@sobrenome.setter
 	def sobrenome(self, sobrenome):
 		self._sobrenome = sobrenome
+
+	@property
+	def cpf(self):
+		return self._cpf

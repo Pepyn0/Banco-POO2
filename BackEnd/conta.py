@@ -1,4 +1,4 @@
-from historico import Historico
+from BackEnd.historico import Historico
 
 
 class Conta(object):

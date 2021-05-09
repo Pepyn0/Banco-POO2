@@ -1,5 +1,5 @@
-from conta import Conta
-from cliente import Cliente
+from BackEnd.cliente import Cliente
+from BackEnd.conta import Conta
 
 if __name__ == "__main__":
 	cliente1 = Cliente('João', 'Silva', '123456789-10')

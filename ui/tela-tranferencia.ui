@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Tela_Saque</class>
- <widget class="QMainWindow" name="Tela_Saque">
+ <class>Tela_Tranferencia</class>
+ <widget class="QMainWindow" name="Tela_Tranferencia">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>V&amp;V Saque</string>
+   <string>V&amp;V Trasnferencia</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QFrame {
@@ -192,7 +192,7 @@ QPushButton:pressed {
         </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="pushButton_Sacar">
+      <widget class="QPushButton" name="pushButton_Transferir">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -243,17 +243,17 @@ QPushButton:pressed {
 }</string>
        </property>
        <property name="text">
-        <string>Sacar</string>
+        <string>Transferir</string>
        </property>
       </widget>
-      <widget class="QLabel" name="labelLogin">
+      <widget class="QLabel" name="labelTransferencia">
        <property name="enabled">
         <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>70</y>
+         <y>60</y>
          <width>341</width>
          <height>40</height>
         </rect>
@@ -283,123 +283,49 @@ QPushButton:pressed {
 }</string>
        </property>
        <property name="text">
-        <string>Saque</string>
+        <string>Transferência</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="labelSaldo">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>100</y>
-         <width>81</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Fira Code</family>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel {
-	color: rgb(255, 255, 255);
-}</string>
-       </property>
-       <property name="text">
-        <string>Saldo: R$</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_Saldo">
-       <property name="geometry">
-        <rect>
-         <x>90</x>
-         <y>100</y>
-         <width>200</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Fira Code</family>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QLineEdit {
-	border: 2px solid rgb(40, 40, 40);;
-	background-color: rgb(40, 40, 40);
-	color: rgb(255, 255, 255);
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-       <property name="placeholderText">
-        <string>100.00</string>
-       </property>
-      </widget>
-      <widget class="QWidget" name="layoutWidget">
+      <widget class="QWidget" name="verticalLayoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>130</y>
+         <y>100</y>
          <width>341</width>
-         <height>51</height>
+         <height>146</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLineEdit" name="lineEdit_Valor">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>280</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QLineEdit {
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Valor">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>280</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>280</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
 	border: 2px solid rgb(45, 45, 45);
 	border-radius: 5px;
 	padding: 10px;
@@ -414,49 +340,47 @@ QLineEdit:hover {
 QLineEdit:focus {
 	border: 2px solid rgb(94, 53, 177);
 }</string>
-          </property>
-          <property name="maxLength">
-           <number>60</number>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="placeholderText">
-           <string>R$</string>
-          </property>
-         </widget>
+            </property>
+            <property name="maxLength">
+             <number>60</number>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>R$</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="layoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>180</y>
-         <width>341</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
-         <widget class="QLineEdit" name="lineEdit_Senha">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>280</width>
-            <height>40</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QLineEdit {
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_CPFDestino">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>280</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>280</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
 	border: 2px solid rgb(45, 45, 45);
 	border-radius: 5px;
 	padding: 10px;
@@ -471,20 +395,80 @@ QLineEdit:hover {
 QLineEdit:focus {
 	border: 2px solid rgb(94, 53, 177);
 }</string>
-          </property>
-          <property name="maxLength">
-           <number>60</number>
-          </property>
-          <property name="echoMode">
-           <enum>QLineEdit::Password</enum>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="placeholderText">
-           <string>SENHA</string>
-          </property>
-         </widget>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="maxLength">
+             <number>60</number>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>CPF DO DESTINATÁRIO</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Senha">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>280</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>280</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+	border: 2px solid rgb(45, 45, 45);
+	border-radius: 5px;
+	padding: 10px;
+	background-color: rgb(30, 30, 30);
+	color: rgb(255, 255, 255);
+}
+
+QLineEdit:hover {
+	border: 2px solid rgb(55, 55, 55);
+}
+
+QLineEdit:focus {
+	border: 2px solid rgb(94, 53, 177);
+}</string>
+            </property>
+            <property name="maxLength">
+             <number>60</number>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>SUA SENHA</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

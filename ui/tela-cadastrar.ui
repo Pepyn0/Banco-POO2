@@ -1,201 +1,447 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>Tela_Cadastro</class>
+ <widget class="QMainWindow" name="Tela_Cadastro">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>340</width>
+    <height>340</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>340</width>
+    <height>340</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>340</width>
+    <height>340</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>V&amp;V Cadastro</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame {
+	color: rgb(40, 40, 40)
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="labelBank">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>30</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
+   <property name="minimumSize">
+    <size>
+     <width>340</width>
+     <height>340</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>340</width>
+     <height>340</height>
+    </size>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>0</number>
     </property>
-    <property name="font">
-     <font>
-      <family>Georgia</family>
-      <pointsize>14</pointsize>
-     </font>
+    <property name="leftMargin">
+     <number>0</number>
     </property>
-    <property name="text">
-     <string>V&amp;V BANK</string>
+    <property name="topMargin">
+     <number>0</number>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonCriar">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>290</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
+    <property name="rightMargin">
+     <number>0</number>
     </property>
-    <property name="text">
-     <string>Criar</string>
+    <property name="bottomMargin">
+     <number>0</number>
     </property>
-   </widget>
-   <widget class="QLabel" name="label_Nome">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>120</y>
-      <width>60</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Nome</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_nome">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>120</y>
-      <width>201</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_sobrenome">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>150</y>
-      <width>171</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_cadnome">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>80</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Georgia</family>
-      <pointsize>14</pointsize>
-      <italic>true</italic>
-     </font>
-    </property>
-    <property name="text">
-     <string>CADASTRAR</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_CPF">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>180</y>
-      <width>60</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CPF</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_Sobrenome">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>150</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Sobrenome</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_cpf">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>180</y>
-      <width>201</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_Senha">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>210</y>
-      <width>60</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Senha</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_Csenha">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>210</y>
-      <width>191</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_Nconta">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>240</y>
-      <width>60</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Nº Conta</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_Cnconta">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>240</y>
-      <width>171</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonCVoltar">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>350</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Voltar</string>
-    </property>
-   </widget>
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="minimumSize">
+       <size>
+        <width>340</width>
+        <height>340</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>340</width>
+        <height>340</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(40, 40, 40);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="8" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QPushButton" name="pushButton_Voltar">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Unispace</family>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	
+	background-color: rgb(94, 53, 177);
+	border: 2px solid rgb(81, 45, 168);
+	border-radius: 5px;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton:hover {
+	
+	background-color: rgb(60, 60, 60);
+	border: 2px solid rgb(70,70,70);
+}
+
+QPushButton:pressed {
+	
+	background-color: rgb(40, 40, 40);
+	border: 2px solid rgb(81, 45, 168);
+	color: rgb(255, 255, 255);
+}</string>
+           </property>
+           <property name="text">
+            <string>Voltar</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="labelBanco">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>MV Boli</family>
+           <pointsize>22</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+	color: rgb(255, 255, 255);
+}</string>
+         </property>
+         <property name="text">
+          <string>V&amp;V Bank</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="labelCadastro">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+	color: rgb(255, 255, 255);
+}</string>
+         </property>
+         <property name="text">
+          <string>Cadastro</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="pushButton_Cadastrar">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Unispace</family>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	
+	background-color: rgb(94, 53, 177);
+	border: 2px solid rgb(81, 45, 168);
+	border-radius: 5px;
+	color: rgb(255, 255, 255);
+}
+
+QPushButton:hover {
+	
+	background-color: rgb(60, 60, 60);
+	border: 2px solid rgb(70,70,70);
+}
+
+QPushButton:pressed {
+	
+	background-color: rgb(40, 40, 40);
+	border: 2px solid rgb(81, 45, 168);
+	color: rgb(255, 255, 255);
+}</string>
+           </property>
+           <property name="text">
+            <string>Cadastrar</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_Nome">
+           <property name="minimumSize">
+            <size>
+             <width>280</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>280</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	border: 2px solid rgb(45, 45, 45);
+	border-radius: 5px;
+	padding: 10px;
+	background-color: rgb(30, 30, 30);
+	color: rgb(255, 255, 255);
+}
+
+QLineEdit:hover {
+	border: 2px solid rgb(55, 55, 55);
+}
+
+QLineEdit:focus {
+	border: 2px solid rgb(94, 53, 177);
+}</string>
+           </property>
+           <property name="placeholderText">
+            <string>NOME</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_Sobrenome">
+           <property name="minimumSize">
+            <size>
+             <width>280</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>280</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	border: 2px solid rgb(45, 45, 45);
+	border-radius: 5px;
+	padding: 10px;
+	background-color: rgb(30, 30, 30);
+	color: rgb(255, 255, 255);
+}
+
+QLineEdit:hover {
+	border: 2px solid rgb(55, 55, 55);
+}
+
+QLineEdit:focus {
+	border: 2px solid rgb(94, 53, 177);
+}</string>
+           </property>
+           <property name="placeholderText">
+            <string>SOBRENOME</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="5" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_Senha">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>280</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	border: 2px solid rgb(45, 45, 45);
+	border-radius: 5px;
+	padding: 10px;
+	background-color: rgb(30, 30, 30);
+	color: rgb(255, 255, 255);
+}
+
+QLineEdit:hover {
+	border: 2px solid rgb(55, 55, 55);
+}
+
+QLineEdit:focus {
+	border: 2px solid rgb(94, 53, 177);
+}</string>
+           </property>
+           <property name="maxLength">
+            <number>60</number>
+           </property>
+           <property name="placeholderText">
+            <string>SENHA</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_CPF">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>280</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	border: 2px solid rgb(45, 45, 45);
+	border-radius: 5px;
+	padding: 10px;
+	background-color: rgb(30, 30, 30);
+	color: rgb(255, 255, 255);
+}
+
+QLineEdit:hover {
+	border: 2px solid rgb(55, 55, 55);
+}
+
+QLineEdit:focus {
+	border: 2px solid rgb(94, 53, 177);
+}</string>
+           </property>
+           <property name="maxLength">
+            <number>60</number>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>CPF</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

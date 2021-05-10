@@ -56,7 +56,7 @@ class Conta(object):
 		self.historico.trasacoes.append("Deposito de {}".format(valor))
 
 	def saca(self, valor):
-		if (self._saldo < valor):
+		if ((self._saldo + self.limite) < valor):
 			return False
 		else:
 			self._saldo -= valor

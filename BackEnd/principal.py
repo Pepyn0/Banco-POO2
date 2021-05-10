@@ -32,12 +32,15 @@ class Principal(Ui_MultiTelas):
 
 		#Tela Deposito
 		self.telaDeposito.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
+		self.telaDeposito.pushButton_Depositar.clicked.connect(self.botaoDepositar)
 
 		#Tela Saque
 		self.telaSaque.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
+		self.telaSaque.pushButton_Sacar.clicked.connect(self.botaoSacar)
 
 		#Tela Transferencia
 		self.telaTransferencia.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
+		self.telaTransferencia.pushButton_Transferir.clicked.connect(self.botaoTranferir)
 
 		#Tela Extrato
 		self.telaExtrato.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
@@ -58,6 +61,7 @@ class Principal(Ui_MultiTelas):
 		self.QtStack.setCurrentIndex(3)
 
 	def botaoTelaSaque(self):
+		self.telaSaque.lineEdit_Saldo.setText(str(self.usuario.saldo))
 		self.QtStack.setCurrentIndex(4)
 
 	def botaoTelaTransferencia(self):
@@ -75,7 +79,7 @@ class Principal(Ui_MultiTelas):
 
 		if not(nome =='' or sobrenome == '' or cpf == '' or senha == ''):
 			cliente = Cliente(nome, sobrenome, cpf)
-			conta = Conta(1, cliente, senha)
+			conta = Conta((self.banco.getTotalContas() + 1), cliente, senha)
 			if(self.banco.cadastrar(conta)):
 				QMessageBox.information(None, "Sucesso", "Cadastro realizado com sucesso!")
 				self.telaCadastro.lineEdit_Nome.setText('')
@@ -101,3 +105,53 @@ class Principal(Ui_MultiTelas):
 				QMessageBox.information(None, "Falha", "Senha Inválida")
 		else:
 			QMessageBox.information(None, "Falha", "CPF Inválido")
+
+	def botaoDepositar(self):
+		valor = float(self.telaDeposito.lineEdit_Valor.text())
+		if not(valor == ''):
+			self.usuario.depositar(valor)
+			self.telaDeposito.lineEdit_Valor.setText('')
+			QMessageBox.information(None, "Sucesso", "Valor Depositado com sucesso!")
+			self.botaoRetornoTelaUsuario()
+		else:
+			QMessageBox.information(None, "Falha", "Valor inválido!")
+
+	def botaoSacar(self):
+		valor = float(self.telaSaque.lineEdit_Valor.text())
+		senha = self.telaSaque.lineEdit_Senha.text()
+		if(self.usuario.autenticaSenha(senha)):
+			if not(valor ==''):
+				if(self.usuario.saca(valor)):
+					self.telaSaque.lineEdit_Valor.setText('')
+					self.telaSaque.lineEdit_Senha.setText('')
+					QMessageBox.information(None, "Sucesso", "Valor sacado com sucesso!")
+					self.botaoRetornoTelaUsuario()
+				else:
+					QMessageBox.information(None, "Falha", "Valor inválido!")
+			else:
+				QMessageBox.information(None, "Falha", "Valor inválido!")
+		else:
+			QMessageBox.information(None, "Falha", "Senha inválida!")
+
+	def botaoTranferir(self):
+		valor = float(self.telaTransferencia.lineEdit_Valor.text())
+		cpfDestino = self.telaTransferencia.lineEdit_CPFDestino.text()
+		senha = self.telaTransferencia.lineEdit_Senha.text()
+		if(self.usuario.autenticaSenha(senha)):
+			destino = self.banco.buscar(cpfDestino)
+			if(destino):
+				if not(valor == ''):
+					if(self.usuario.transfere(destino, valor)):
+						self.telaTransferencia.lineEdit_Valor.setText('')
+						self.telaTransferencia.lineEdit_CPFDestino.setText('')
+						self.telaTransferencia.lineEdit_Senha.setText('')
+						QMessageBox.information(None, "Sucesso", "Tranferencia realizada com sucesso!")
+						self.botaoRetornoTelaUsuario()
+					else:
+						QMessageBox.information(None, "Falha", "Valor inválido!")
+				else:
+					QMessageBox.information(None, "Falha", "Valor inválido!")
+			else:
+				QMessageBox.information(None, "Falha", "CPF inválido!")
+		else:
+			QMessageBox.information(None, "Falha", "Senha inválida!")

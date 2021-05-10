@@ -25,6 +25,22 @@ class Principal(Ui_MultiTelas):
 
 		#Tela Usuário
 		self.telaUsuario.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaLogin)
+		self.telaUsuario.pushButton_TelaDeposito.clicked.connect(self.botaoTelaDepositar)
+		self.telaUsuario.pushButton_TelaSaque.clicked.connect(self.botaoTelaSaque)
+		self.telaUsuario.pushButton_TelaTransferencia.clicked.connect(self.botaoTelaTransferencia)
+		self.telaUsuario.pushButton_TelaHistorico.clicked.connect(self.botaoTelaExtrato)
+
+		#Tela Deposito
+		self.telaDeposito.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
+
+		#Tela Saque
+		self.telaSaque.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
+
+		#Tela Transferencia
+		self.telaTransferencia.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
+
+		#Tela Extrato
+		self.telaExtrato.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
 
 
 	def botaoRetornoTelaLogin(self):
@@ -41,9 +57,14 @@ class Principal(Ui_MultiTelas):
 	def botaoTelaDepositar(self):
 		self.QtStack.setCurrentIndex(3)
 
+	def botaoTelaSaque(self):
+		self.QtStack.setCurrentIndex(4)
 
+	def botaoTelaTransferencia(self):
+		self.QtStack.setCurrentIndex(5)
 
-
+	def botaoTelaExtrato(self):
+		self.QtStack.setCurrentIndex(6)
 
 
 	def botaoCadastrar(self):

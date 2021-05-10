@@ -31,24 +31,24 @@ class Principal(Ui_MultiTelas):
 		self.telaUsuario.pushButton_TelaHistorico.clicked.connect(self.botaoTelaExtrato)
 
 		#Tela Deposito
-		self.telaDeposito.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
+		self.telaDeposito.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
 
 		#Tela Saque
-		self.telaSaque.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
+		self.telaSaque.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
 
 		#Tela Transferencia
-		self.telaTransferencia.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
+		self.telaTransferencia.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
 
 		#Tela Extrato
-		self.telaExtrato.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario(self.usuario))
+		self.telaExtrato.pushButton_Voltar.clicked.connect(self.botaoRetornoTelaUsuario)
 
 
 	def botaoRetornoTelaLogin(self):
 		self.QtStack.setCurrentIndex(0)
 
-	def botaoRetornoTelaUsuario(self, conta: Conta):
-		self.telaUsuario.lineEdit_Nome.setText(conta.titular.nome)
-		self.telaUsuario.lineEdit_Saldo.setText(str(conta.saldo))
+	def botaoRetornoTelaUsuario(self):
+		self.telaUsuario.lineEdit_Nome.setText(self.usuario.titular.nome)
+		self.telaUsuario.lineEdit_Saldo.setText(str(self.usuario.saldo))
 		self.QtStack.setCurrentIndex(2)
 
 	def botaoTelaCadastrar(self):
@@ -96,7 +96,7 @@ class Principal(Ui_MultiTelas):
 				self.telaLogin.lineEdit_CPF.setText('')
 				self.telaLogin.lineEdit_Senha.setText('')
 				self.usuario = conta
-				self.botaoRetornoTelaUsuario(conta)
+				self.botaoRetornoTelaUsuario()
 			else:
 				QMessageBox.information(None, "Falha", "Senha Inválida")
 		else:

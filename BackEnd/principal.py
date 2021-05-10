@@ -68,6 +68,8 @@ class Principal(Ui_MultiTelas):
 		self.QtStack.setCurrentIndex(5)
 
 	def botaoTelaExtrato(self):
+		texto = self.usuario.historico.imprime()
+		self.telaExtrato.textEdit_Historico.setText(texto)
 		self.QtStack.setCurrentIndex(6)
 
 

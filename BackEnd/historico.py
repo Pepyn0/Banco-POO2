@@ -6,7 +6,10 @@ class Historico(object):
 		self.trasacoes = []
 
 	def imprime(self):
-		print('abretura: {}'.format(self.abertura))
-		print('transações: ')
+		texto = ""
+		texto+= 'abretura: {}\n'.format(self.abertura)
+		texto+= 'transações:\n'
 		for t in self.trasacoes:
-			print("-", t)
+			texto+= t+'\n'
+		return texto
+

@@ -4,7 +4,6 @@ from BackEnd.cliente import Cliente
 
 class Conta(object):
 
-	_totalContas = 0
 	__slots__ = ["_numero", "_titular", "_saldo", "_limite", "_historico", "_senha"]
 
 	def __init__(self, numero, cliente: Cliente, senha, saldo = 0.00, limite=1000):
@@ -14,11 +13,7 @@ class Conta(object):
 		self._saldo = saldo
 		self._limite = limite
 		self._historico = Historico()
-		Conta._totalContas += 1
 
-	@staticmethod
-	def getTotalContas():
-		return Conta._totalContas
 
 	@property
 	def numero (self):
@@ -58,25 +53,25 @@ class Conta(object):
 
 	def depositar(self, valor):
 		self._saldo += valor
-		self.historico.trasacoes.append("deposito de {}".format(valor))
+		self.historico.trasacoes.append("Deposito de {}".format(valor))
 
 	def saca(self, valor):
 		if (self._saldo < valor):
 			return False
 		else:
 			self._saldo -= valor
-			self.historico.trasacoes.append("saque de {}".format(valor))
+			self.historico.trasacoes.append("Saque de {}".format(valor))
 			return True
 
 	def extrato(self):
 		print("numero: {}\nsaldo: {}".format(self.numero, self._saldo))
-		self.historico.trasacoes.append("extrato - saldo de {}".format(self._saldo))
+		self.historico.trasacoes.append("Extrato - saldo de {}".format(self._saldo))
 
 	def transfere(self, destino, valor):
 		retirou = self.saca(valor)
 		if(retirou):
 			destino.depositar(valor)
-			self.historico.trasacoes.append("tranferencia de {} para a conta {}".format(valor, destino.numero))
+			self.historico.trasacoes.append("Tranferencia de {} para a conta {}".format(valor, destino.numero))
 			return True
 		else:
 			return False

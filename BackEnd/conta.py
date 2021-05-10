@@ -5,11 +5,12 @@ from BackEnd.cliente import Cliente
 class Conta(object):
 
 	_totalContas = 0
-	__slots__ = ["_numero", "_titular", "_saldo", "_limite", "_historico"]
+	__slots__ = ["_numero", "_titular", "_saldo", "_limite", "_historico", "_senha"]
 
-	def __init__(self, numero, cliente: Cliente, saldo, limite=1000):
+	def __init__(self, numero, cliente: Cliente, senha, saldo = 0.00, limite=1000):
 		self._numero = numero
 		self._titular = cliente
+		self._senha = senha
 		self._saldo = saldo
 		self._limite = limite
 		self._historico = Historico()
@@ -34,6 +35,10 @@ class Conta(object):
 	@titular.setter
 	def titular (self,titular):
 		self._titular = titular
+
+	@property
+	def saldo(self):
+		return self._saldo
 
 	@property
 	def limite (self):
@@ -72,6 +77,12 @@ class Conta(object):
 		if(retirou):
 			destino.depositar(valor)
 			self.historico.trasacoes.append("tranferencia de {} para a conta {}".format(valor, destino.numero))
+			return True
+		else:
+			return False
+
+	def autenticaSenha(self, senha):
+		if(senha == self._senha):
 			return True
 		else:
 			return False

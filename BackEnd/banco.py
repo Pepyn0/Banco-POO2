@@ -7,7 +7,7 @@ class Banco(object):
 
 	def buscar(self,cpf):
 		for p in self._contas:
-			if(p.cpf == cpf):
+			if(p.titular.cpf == cpf):
 				return p
 		return None
 

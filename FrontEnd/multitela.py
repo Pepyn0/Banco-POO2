@@ -3,13 +3,13 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QStackedLayout
 
 #Telas
-from FrontEnd.tela_login import Ui_Tela_Login
-from FrontEnd.tela_cadastrar import Ui_Tela_Cadastro
-from FrontEnd.tela_usuario import Ui_Tela_Usuario
-from FrontEnd.tela_deposito import Ui_Tela_Deposito
-from FrontEnd.tela_saque import Ui_Tela_Saque
-from FrontEnd.tela_transferencia import Ui_Tela_Tranferencia
-from FrontEnd.tela_extrato import Ui_Tela_Extrato
+from tela_login import Ui_Tela_Login
+from tela_cadastrar import Ui_Tela_Cadastro
+from tela_usuario import Ui_Tela_Usuario
+from tela_deposito import Ui_Tela_Deposito
+from tela_saque import Ui_Tela_Saque
+from tela_transferencia import Ui_Tela_Tranferencia
+from tela_extrato import Ui_Tela_Extrato
 
 class Ui_MultiTelas(QtWidgets.QWidget):
 	def setupUi(self, Main: QMainWindow):

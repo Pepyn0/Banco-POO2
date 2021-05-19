@@ -1,19 +1,17 @@
 #Dependencias
-from PyQt5.QtWidgets import QMessageBox, QApplication, QMainWindow
+from PyQt5.QtWidgets import QMessageBox, QMainWindow
 
 #FrontEnd
-from FrontEnd.multitela import Ui_MultiTelas
+from conexaoCliente import ConexaoClient
+from multitela import Ui_MultiTelas
 
-#BackEnd
-from BackEnd.cliente import Cliente
-from BackEnd.conta import Conta
-from BackEnd.banco import Banco
 
 class Principal(Ui_MultiTelas):
 	def setupUi(self, Main: QMainWindow):
 		super().setupUi(Main)
-		self.banco = Banco()
-		self.usuario = None
+		self.usuarioCPF = None
+		self.conexaoCliente = ConexaoClient()
+		self.conexaoCliente.conectar()
 
 		#Tela Login
 		self.telaLogin.pushButton_Cadastrar.clicked.connect(self.botaoTelaCadastrar)
@@ -50,8 +48,12 @@ class Principal(Ui_MultiTelas):
 		self.QtStack.setCurrentIndex(0)
 
 	def botaoRetornoTelaUsuario(self):
-		self.telaUsuario.lineEdit_Nome.setText(self.usuario.titular.nome)
-		self.telaUsuario.lineEdit_Saldo.setText(str(self.usuario.saldo))
+		dadosEnviados = "{}/{}".format(3, self.usuarioCPF)#Buscar nome e saldo
+		dadosRecebidos = self.conexaoCliente.comunicar(dadosEnviados)
+		dadosRecebidos = dadosRecebidos.split('/')
+
+		self.telaUsuario.lineEdit_Nome.setText(dadosRecebidos[0])
+		self.telaUsuario.lineEdit_Saldo.setText(dadosRecebidos[1])
 		self.QtStack.setCurrentIndex(2)
 
 	def botaoTelaCadastrar(self):
@@ -61,15 +63,19 @@ class Principal(Ui_MultiTelas):
 		self.QtStack.setCurrentIndex(3)
 
 	def botaoTelaSaque(self):
-		self.telaSaque.lineEdit_Saldo.setText(str(self.usuario.saldo))
+		dadosEnviados = "{}/{}".format(4, self.usuarioCPF)#Buscar saldo
+		dadosRecebidos = self.conexaoCliente.comunicar(dadosEnviados)
+		self.telaSaque.lineEdit_Saldo.setText(dadosRecebidos)
 		self.QtStack.setCurrentIndex(4)
 
 	def botaoTelaTransferencia(self):
 		self.QtStack.setCurrentIndex(5)
 
 	def botaoTelaExtrato(self):
-		texto = self.usuario.historico.imprime()
-		self.telaExtrato.textEdit_Historico.setText(texto)
+		dadosEnviados = "{}/{}".format(5, self.usuarioCPF)#Buscar histórico
+		dadosRecebidos = self.conexaoCliente.comunicar(dadosEnviados)
+
+		self.telaExtrato.textEdit_Historico.setText(dadosRecebidos)
 		self.QtStack.setCurrentIndex(6)
 
 
@@ -80,9 +86,11 @@ class Principal(Ui_MultiTelas):
 		senha = self.telaCadastro.lineEdit_Senha.text()
 
 		if not(nome =='' or sobrenome == '' or cpf == '' or senha == ''):
-			cliente = Cliente(nome, sobrenome, cpf)
-			conta = Conta((self.banco.getTotalContas() + 1), cliente, senha)
-			if(self.banco.cadastrar(conta)):
+
+			dadosEnviados = "{}/{}/{}/{}/{}".format(1, nome, sobrenome, cpf, senha)#cadastrar
+			dadosRecebidos = self.conexaoCliente.comunicar(dadosEnviados)
+
+			if(dadosRecebidos == "True"):
 				QMessageBox.information(None, "Sucesso", "Cadastro realizado com sucesso!")
 				self.telaCadastro.lineEdit_Nome.setText('')
 				self.telaCadastro.lineEdit_Sobrenome.setText('')
@@ -95,23 +103,25 @@ class Principal(Ui_MultiTelas):
 	def botaoAutenticaLogin(self):
 		cpf = self.telaLogin.lineEdit_CPF.text()
 		senha = self.telaLogin.lineEdit_Senha.text()
-		conta = self.banco.buscar(cpf)
-		if(conta):
-			autenticado = conta.autenticaSenha(senha)
-			if(autenticado):
-				self.telaLogin.lineEdit_CPF.setText('')
-				self.telaLogin.lineEdit_Senha.setText('')
-				self.usuario = conta
-				self.botaoRetornoTelaUsuario()
-			else:
-				QMessageBox.information(None, "Falha", "Senha Inválida")
+
+		dadosEnviados = "{}/{}/{}".format(2, cpf, senha)#verificar se existe
+		dadosRecebidos = self.conexaoCliente.comunicar(dadosEnviados)
+
+		if(dadosRecebidos == "True"):
+			self.telaLogin.lineEdit_CPF.setText('')
+			self.telaLogin.lineEdit_Senha.setText('')
+			self.usuarioCPF = cpf
+			self.botaoRetornoTelaUsuario()
 		else:
-			QMessageBox.information(None, "Falha", "CPF Inválido")
+			QMessageBox.information(None, "Falha", "Dados Inválidos")
 
 	def botaoDepositar(self):
-		valor = float(self.telaDeposito.lineEdit_Valor.text())
+		valor = self.telaDeposito.lineEdit_Valor.text()
 		if not(valor == ''):
-			self.usuario.depositar(valor)
+
+			dadosEnviados = "{}/{}/{}".format(6, self.usuarioCPF, valor)#Depositar
+			self.conexaoCliente.comunicar(dadosEnviados)
+
 			self.telaDeposito.lineEdit_Valor.setText('')
 			QMessageBox.information(None, "Sucesso", "Valor Depositado com sucesso!")
 			self.botaoRetornoTelaUsuario()
@@ -119,41 +129,39 @@ class Principal(Ui_MultiTelas):
 			QMessageBox.information(None, "Falha", "Valor inválido!")
 
 	def botaoSacar(self):
-		valor = float(self.telaSaque.lineEdit_Valor.text())
+		valor = self.telaSaque.lineEdit_Valor.text()
 		senha = self.telaSaque.lineEdit_Senha.text()
-		if(self.usuario.autenticaSenha(senha)):
-			if not(valor ==''):
-				if(self.usuario.saca(valor)):
-					self.telaSaque.lineEdit_Valor.setText('')
-					self.telaSaque.lineEdit_Senha.setText('')
-					QMessageBox.information(None, "Sucesso", "Valor sacado com sucesso!")
-					self.botaoRetornoTelaUsuario()
-				else:
-					QMessageBox.information(None, "Falha", "Valor inválido!")
+
+		if not(valor ==''):
+
+			dadosEnviados = "{}/{}/{}/{}".format(7, self.usuarioCPF, senha, valor)#Autenticar e sacar
+			dadosRecebidos = self.conexaoCliente.comunicar(dadosEnviados)
+
+			if(dadosRecebidos == "True"):
+				self.telaSaque.lineEdit_Valor.setText('')
+				self.telaSaque.lineEdit_Senha.setText('')
+				QMessageBox.information(None, "Sucesso", "Valor sacado com sucesso!")
+				self.botaoRetornoTelaUsuario()
 			else:
 				QMessageBox.information(None, "Falha", "Valor inválido!")
-		else:
-			QMessageBox.information(None, "Falha", "Senha inválida!")
 
 	def botaoTranferir(self):
-		valor = float(self.telaTransferencia.lineEdit_Valor.text())
+		valor = self.telaTransferencia.lineEdit_Valor.text()
 		cpfDestino = self.telaTransferencia.lineEdit_CPFDestino.text()
 		senha = self.telaTransferencia.lineEdit_Senha.text()
-		if(self.usuario.autenticaSenha(senha)):
-			destino = self.banco.buscar(cpfDestino)
-			if(destino):
-				if not(valor == ''):
-					if(self.usuario.transfere(destino, valor)):
-						self.telaTransferencia.lineEdit_Valor.setText('')
-						self.telaTransferencia.lineEdit_CPFDestino.setText('')
-						self.telaTransferencia.lineEdit_Senha.setText('')
-						QMessageBox.information(None, "Sucesso", "Tranferencia realizada com sucesso!")
-						self.botaoRetornoTelaUsuario()
-					else:
-						QMessageBox.information(None, "Falha", "Valor inválido!")
-				else:
-					QMessageBox.information(None, "Falha", "Valor inválido!")
+
+		if not(valor == ''):
+
+			dadosEnviados = "{}/{}/{}/{}/{}".format(8, self.usuarioCPF, senha, cpfDestino, valor)#verificar senha verificar destinatário e transferir
+			dadosRecebidos = self.conexaoCliente.comunicar(dadosEnviados)
+
+			if(dadosRecebidos == "True"):
+				self.telaTransferencia.lineEdit_Valor.setText('')
+				self.telaTransferencia.lineEdit_CPFDestino.setText('')
+				self.telaTransferencia.lineEdit_Senha.setText('')
+				QMessageBox.information(None, "Sucesso", "Tranferencia realizada com sucesso!")
+				self.botaoRetornoTelaUsuario()
 			else:
-				QMessageBox.information(None, "Falha", "CPF inválido!")
+				QMessageBox.information(None, "Falha", "Dados inválido!")
 		else:
-			QMessageBox.information(None, "Falha", "Senha inválida!")
+			QMessageBox.information(None, "Falha", "Dados inválido!")

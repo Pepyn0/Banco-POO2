@@ -1,5 +1,5 @@
-from BackEnd.historico import Historico
-from BackEnd.cliente import Cliente
+from historico import Historico
+from cliente import Cliente
 
 
 class Conta(object):

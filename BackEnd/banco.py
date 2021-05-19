@@ -1,4 +1,4 @@
-from BackEnd.conta import Conta
+from conta import Conta
 class Banco(object):
 
 	_totalContas = 0

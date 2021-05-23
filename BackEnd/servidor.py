@@ -40,6 +40,7 @@ class conexaoServidor(object):
 				print("Conta de {} cadastrada".format(conta.titular.nome))
 				self.conexao.send("True".encode())
 			else:
+				print("Erro ao cadastrar conta")
 				self.conexao.send("Erro ao cadastrar conta!".encode())
 
 		elif(listaDados[0] == '2'):	#Autenticar
@@ -48,11 +49,13 @@ class conexaoServidor(object):
 			if(conta):
 				autenticado = conta.autenticaSenha(listaDados[2])
 				if(autenticado):
-					print("acesso permitido ao usuário")
+					print("Acesso permitido ao usuário")
 					self.conexao.send("True".encode())
 				else:
+					print("Acesso negado ao usuário")
 					self.conexao.send("Senha inválida".encode())
 			else:
+				print("Acesso negado ao usuário")
 				self.conexao.send("CPF inválido".encode())
 
 		elif(listaDados[0] == '3'):	#Obter nome e saldo
@@ -69,21 +72,26 @@ class conexaoServidor(object):
 			conta = self.banco.buscar(listaDados[1])
 			retorno = conta.historico.imprime()
 			self.conexao.send(retorno.encode())
+			print("Conta {} acessou historico".format(conta.titular.nome))
 
 		elif(listaDados[0] == '6'):	#Depositar
 			conta = self.banco.buscar(listaDados[1])
 			conta.depositar(float(listaDados[2]))
 			self.conexao.send("True".encode())
+			print("Conta {} realizou um deposito".format(conta.titular.nome))
 
 		elif(listaDados[0] == '7'):	#Sacar
 			conta = self.banco.buscar(listaDados[1])
 			if(conta.autenticaSenha(listaDados[2])):
 				if(conta.saca(float(listaDados[3]))):
+					print("Conta {} realizou um saque".format(conta.titular.nome))
 					self.conexao.send("True".encode())
 				else:
 					self.conexao.send("Valor inválido".encode())
+					print("Conta realizou saque mal-sucedido")
 			else:
 				self.conexao.send("Senha inválida".encode())
+				print("Conta realizou saque mal-sucedido")
 
 		elif(listaDados[0] == '8'):	#Transferir
 			conta = self.banco.buscar(listaDados[1])
@@ -92,10 +100,13 @@ class conexaoServidor(object):
 				if(contaDestino):
 					conta.transfere(contaDestino, float(listaDados[4]))
 					self.conexao.send("True".encode())
+					print("Conta {} realizou uma transferencia para {}".format(conta.titular.nome,contaDestino.titular.nome))
 				else:
 					self.conexao.send("CPF não encontrado".encode())
+					print("Conta realizou transferencia mal-sucedida")
 			else:
 				self.conexao.send("Senha inválida".encode())
+				print("Conta realizou transferencia mal-sucedida")
 
 
 	def fechar(self):

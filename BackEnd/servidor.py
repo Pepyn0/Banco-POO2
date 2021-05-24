@@ -9,6 +9,10 @@ HOST = 'localhost'
 PORT = 8000
 
 class conexaoServidor(object):
+	"""
+		AUTHOR: Pablo Duarte da Silva e Vitoria Karolina Ferreira de Sousa
+
+	"""
 	def __init__(self):
 		self.banco = Banco()
 		self.addr = None
@@ -17,6 +21,11 @@ class conexaoServidor(object):
 
 
 	def conectar(self):
+		"""
+		DESCRIPTION: Função responsavél pelo envio de dados na rede.
+
+		--> Nela é criado o socket e reinicializado, atribuído o limite de conexões e define a porta e ips que devem se conectar.
+		"""
 		self.addr = ((HOST, PORT))
 		self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -30,6 +39,30 @@ class conexaoServidor(object):
 
 
 	def comunicar(self):
+		"""
+		DESCRIPTION: A função comunicar possui um objeto conta recebe o cadastro e é dividida em partes:
+		 - É feito uma verificação se há uma conta cadastrada conforme o que foi atribuída, se o retorno for TRUE 
+		 irá ser informado uma mensagem ao cliente que a operação ocorreu, caso seja retornado FALSE irá ser imprimido
+		 uma mensagem de falha na operação.
+
+		 - Verifica-se a existência de uma conta cadastrada e uma variável para receber o campo de senha, 
+		 caso seja TRUE a operação informará uma mensagem de permissão de acesso ao usuário e caso seja FALSE
+		 será imprimido uma mensagem de erro na operação;
+		 
+		 -Obtido os dados do cliente como nome e saldo e é mostrado ao mesmo;
+
+		 -Caso seja acessado o extrato da conta, uma mensagem será imprimida informando a que conta foi acessado;
+
+		 -Em caso de depositos, uma mensagem será imprimida informando que a conta vinculada recebeu um depósito;
+
+		 -Saques são necessários autenticação de senha, caso seja permitido um saque será informado uma mensagem
+		 de que a conta vinculada realizou tal e caso retorne FALSE é imprimido uma mensagem de erro na operação;
+
+		 -Para realização da última etapa é preciso autenticação de senha e uma verificação da existencia de uma 
+		 conta destino, caso seja TRUE é mostrado uma mensagem de que a conta vinculada realizou uma transferência
+		 para a conta destino e se for FALSE nas duas verificações é informado uma mensagem de erro na operação.
+
+		"""
 		dados = self.conexao.recv(1024).decode()
 		listaDados = dados.split('/')
 
@@ -110,6 +143,10 @@ class conexaoServidor(object):
 
 
 	def fechar(self):
+		"""
+		DESCRIPTION: Função responsavél pelo encerramento de uso de dados e finalização do socket.
+
+		"""
 		self.serverSocket.close()
 		print("Server finalizado.")
 

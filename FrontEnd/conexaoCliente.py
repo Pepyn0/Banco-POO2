@@ -6,10 +6,6 @@ PORT = 8000
 
 class ConexaoClient(object):
 	def __init__(self):
-	"""
-		AUTHOR: Pablo Duarte da Silva e Vitoria Karolina Ferreira de Sousa
-
-	"""
 		self.addr = None
 		self.clientSocket = None
 

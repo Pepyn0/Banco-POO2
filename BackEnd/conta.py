@@ -6,6 +6,10 @@ from database.sql import busca_conta, cadastrar_conta, autentica_senha, busca_va
 
 
 class Conta(object):
+	"""
+		AUTHOR: Pablo Duarte da Silva e Vitoria Karolina Ferreira de Sousa
+
+	"""
 
 	@staticmethod
 	def depositar(id_conta, valor, cursor):

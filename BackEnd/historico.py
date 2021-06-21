@@ -1,6 +1,10 @@
 from database.sql import cadastrar_historico, mostra_historico
 
 class Historico(object):
+	"""
+		AUTHOR: Pablo Duarte da Silva e Vitoria Karolina Ferreira de Sousa
+
+	"""
 
 	@staticmethod
 	def inserirHistorico(id_conta, transacao, cursor):

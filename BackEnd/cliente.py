@@ -1,6 +1,10 @@
 from database.sql import busca_cliente, cadastrar_cliente
 
 class Cliente(object):
+	"""
+		AUTHOR: Pablo Duarte da Silva e Vitoria Karolina Ferreira de Sousa
+
+	"""
 
 	@staticmethod
 	def buscarCliente(cpf, cursor):

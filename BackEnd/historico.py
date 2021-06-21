@@ -1,15 +1,16 @@
-import datetime
+from database.sql import cadastrar_historico, mostra_historico
 
 class Historico(object):
-	def __init__(self):
-		self.abertura = datetime.datetime.today()
-		self.trasacoes = []
 
-	def imprime(self):
+	@staticmethod
+	def inserirHistorico(id_conta, transacao, cursor):
+		cursor.execute(cadastrar_historico.format(id_conta, transacao))
+
+	@staticmethod
+	def mostrarHistorico(id_conta, cursor):
+		cursor.execute(mostra_historico.format(id_conta))
+		listaHistorico = list(cursor)
 		texto = ""
-		texto+= 'abretura: {}\n'.format(self.abertura)
-		texto+= 'transações:\n'
-		for t in self.trasacoes:
-			texto+= t+'\n'
+		for t in listaHistorico:
+			texto += (t[0]) + '\n'
 		return texto
-

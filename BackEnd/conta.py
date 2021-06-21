@@ -1,47 +1,11 @@
+from datetime import datetime
 from historico import Historico
 from cliente import Cliente
 
+from database.sql import busca_conta, cadastrar_conta, autentica_senha, busca_valores, atualizar_saldo
+
 
 class Conta(object):
-
-	__slots__ = ["_numero", "_titular", "_saldo", "_limite", "_historico", "_senha"]
-
-	def __init__(self, numero, cliente: Cliente, senha, saldo = 0.00, limite=1000):
-		self._numero = numero
-		self._titular = cliente
-		self._senha = senha
-		self._saldo = saldo
-		self._limite = limite
-		self._historico = Historico()
-
-
-	@property
-	def numero (self):
-		return self._numero
-
-	@numero.setter
-	def numero(self,numero):
-		self._numero = numero
-
-	@property
-	def titular (self):
-		return self._titular
-
-	@titular.setter
-	def titular (self,titular):
-		self._titular = titular
-
-	@property
-	def saldo(self):
-		return self._saldo
-
-	@property
-	def limite (self):
-		return self._limite
-
-	@limite.setter
-	def limite (self,limite):
-		self._limite = limite
 
 	@property
 	def historico (self):
@@ -51,33 +15,68 @@ class Conta(object):
 	def historico (self,historico):
 		self._historico = historico
 
-	def depositar(self, valor):
-		self._saldo += valor
-		self.historico.trasacoes.append("Deposito de {}".format(valor))
+	@staticmethod
+	def depositar(id_conta, valor, cursor):
+		cursor.execute(busca_valores.format(id_conta))
+		saldo = list(cursor)[0][1]
+		saldo += valor
+		cursor.execute(atualizar_saldo.format(saldo, id_conta))
+		Historico.inserirHistorico(id_conta, "Deposito de {}".format(valor), cursor)
 
-	def saca(self, valor):
-		if ((self._saldo + self.limite) < valor):
+	@staticmethod
+	def saca(id_conta, valor, cursor):
+		cursor.execute(busca_valores.format(id_conta))
+		lista = list(cursor)
+		saldo = lista[0][1]
+		limite = lista[0][2]
+
+		if((saldo + limite) < valor):
 			return False
 		else:
-			self._saldo -= valor
-			self.historico.trasacoes.append("Saque de {}".format(valor))
+			saldo -= valor
+			cursor.execute(atualizar_saldo.format(saldo, id_conta))
+			Historico.inserirHistorico(id_conta, "Saque de {}".format(valor), cursor)
 			return True
 
-	def extrato(self):
-		print("numero: {}\nsaldo: {}".format(self.numero, self._saldo))
-		self.historico.trasacoes.append("Extrato - saldo de {}".format(self._saldo))
-
-	def transfere(self, destino, valor):
-		retirou = self.saca(valor)
+	@staticmethod
+	def transferirConta(id_conta, id_conta_destino, valor, cursor):
+		retirou = Conta.saca(id_conta, valor, cursor)
 		if(retirou):
-			destino.depositar(valor)
-			self.historico.trasacoes.append("Tranferencia de {} para a conta {}".format(valor, destino.numero))
+			Conta.depositar(id_conta_destino, valor, cursor)
+			nomeDestino = Conta.buscarValores(id_conta_destino, cursor)
+			Historico.inserirHistorico(id_conta, "Tranferencia de {} para a conta {}".format(valor, nomeDestino[0][0]), cursor)
 			return True
 		else:
 			return False
 
-	def autenticaSenha(self, senha):
-		if(senha == self._senha):
+	@staticmethod
+	def buscarConta(cpf, cursor):
+		cursor.execute(busca_conta.format(cpf))
+		conta = list(cursor)
+		if(len(conta) != 0):
+			return conta[0][0]
+		return None
+
+	@staticmethod
+	def cadastrarConta(cpf, senha, cursor):
+		if(Conta.buscarConta(cpf, cursor) == None):
+			id_cliente = Cliente.buscarCliente(cpf, cursor)
+			cursor.execute(cadastrar_conta.format(id_cliente, 0, senha, 1000))
+			id_conta = Conta.buscarConta(cpf, cursor)
+			Historico.inserirHistorico(id_conta, "Conta aberta em {}".format(str(datetime.now().strftime('%d/%m/%Y %H:%M'))), cursor)
 			return True
-		else:
-			return False
+		return False
+
+	@staticmethod
+	def autenticaSenha(id_conta, senha, cursor):
+		cursor.execute(autentica_senha.format(id_conta, senha))
+		conta = list(cursor)
+		if(len(conta) != 0):
+			return True
+		return False
+
+	@staticmethod
+	def buscarValores(id_conta, cursor):
+		cursor.execute(busca_valores.format(id_conta))
+		conta = list(cursor)
+		return conta

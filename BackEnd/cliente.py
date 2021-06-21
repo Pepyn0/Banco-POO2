@@ -1,28 +1,18 @@
+from database.sql import busca_cliente, cadastrar_cliente
+
 class Cliente(object):
 
-	__slots__ = ["_nome", "_sobrenome", "_cpf"]
+	@staticmethod
+	def buscarCliente(cpf, cursor):
+		cursor.execute(busca_cliente.format(cpf))
+		cliente = list(cursor)
+		if(len(cliente) != 0):
+			return cliente[0][0]
+		return None
 
-	def __init__(self, nome, sobrenome, cpf):
-		self._nome = nome
-		self._sobrenome = sobrenome
-		self._cpf = cpf
-
-	@property
-	def nome(self):
-		return self._nome
-
-	@nome.setter
-	def nome(self, nome):
-		self._nome = nome
-
-	@property
-	def sobrenome(self):
-		return self._sobrenome
-
-	@sobrenome.setter
-	def sobrenome(self, sobrenome):
-		self._sobrenome = sobrenome
-
-	@property
-	def cpf(self):
-		return self._cpf
+	@staticmethod
+	def cadastrarPessoa(nome, sobrenome, cpf, cursor):
+		if(Cliente.buscarCliente(cpf, cursor) == None):
+			cursor.execute(cadastrar_cliente.format(nome, sobrenome, cpf))
+			return True
+		return False

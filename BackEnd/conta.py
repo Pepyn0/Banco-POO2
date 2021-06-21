@@ -7,14 +7,6 @@ from database.sql import busca_conta, cadastrar_conta, autentica_senha, busca_va
 
 class Conta(object):
 
-	@property
-	def historico (self):
-		return self._historico
-		
-	@historico.setter
-	def historico (self,historico):
-		self._historico = historico
-
 	@staticmethod
 	def depositar(id_conta, valor, cursor):
 		cursor.execute(busca_valores.format(id_conta))

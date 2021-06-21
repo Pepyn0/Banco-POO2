@@ -1,12 +1,18 @@
 
 import socket
+import psycopg2
 
-from banco import Banco
+from database.sql import clientes, contas, historicos
+
+
 from cliente import Cliente
 from conta import Conta
+from historico import Historico
 
 HOST = 'localhost'
 PORT = 8000
+
+bd = psycopg2.connect(user = 'postgres', password= 'toor', host= 'localhost', port= '5432', database= 'banco')
 
 class conexaoServidor(object):
 	"""
@@ -14,10 +20,10 @@ class conexaoServidor(object):
 
 	"""
 	def __init__(self):
-		self.banco = Banco()
 		self.addr = None
 		self.serverSocket = None
 		self.conexao = None
+		self.cursor = bd.cursor()
 
 
 	def conectar(self):
@@ -31,6 +37,11 @@ class conexaoServidor(object):
 		self.serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		self.serverSocket.bind(self.addr)
 		self.serverSocket.listen(2)
+
+		self.cursor.execute(clientes)
+		self.cursor.execute(contas)
+		self.cursor.execute(historicos)
+
 		print("Aguardando conexão...")
 
 		self.conexao, _ = self.serverSocket.accept()
@@ -67,20 +78,21 @@ class conexaoServidor(object):
 		listaDados = dados.split('/')
 
 		if(listaDados[0] == '1'):	#Cadastrar
-			cliente = Cliente(listaDados[1], listaDados[2], listaDados[3])
-			conta = Conta((self.banco.getTotalContas() + 1), cliente, listaDados[4])
-			if(self.banco.cadastrar(conta)):
-				print("Conta de {} cadastrada".format(conta.titular.nome))
+
+			Cliente.cadastrarPessoa(listaDados[1], listaDados[2], listaDados[3], self.cursor)
+			if(Conta.cadastrarConta(listaDados[3], listaDados[4], self.cursor)):
+				print("Conta de {} cadastrada".format(listaDados[3]))
 				self.conexao.send("True".encode())
 			else:
 				print("Erro ao cadastrar conta")
 				self.conexao.send("Erro ao cadastrar conta!".encode())
 
 		elif(listaDados[0] == '2'):	#Autenticar
-			conta = self.banco.buscar(listaDados[1])
 
-			if(conta):
-				autenticado = conta.autenticaSenha(listaDados[2])
+			id_conta = Conta.buscarConta(listaDados[1], self.cursor) 
+
+			if(id_conta):
+				autenticado = Conta.autenticaSenha(id_conta,listaDados[2], self.cursor)
 				if(autenticado):
 					print("Acesso permitido ao usuário")
 					self.conexao.send("True".encode())
@@ -92,32 +104,36 @@ class conexaoServidor(object):
 				self.conexao.send("CPF inválido".encode())
 
 		elif(listaDados[0] == '3'):	#Obter nome e saldo
-			conta = self.banco.buscar(listaDados[1])
-			retorno = "{}/{}".format(conta.titular.nome, conta.saldo)
+
+			id_conta = Conta.buscarConta(listaDados[1], self.cursor)
+			listaValores = Conta.buscarValores(id_conta, self.cursor)
+			retorno = "{}/{}".format(listaValores[0][0], listaValores[0][1])
 			self.conexao.send(retorno.encode())
 
 		elif(listaDados[0] == '4'):	#Obter saldo
-			conta = self.banco.buscar(listaDados[1])
-			retorno = "{}".format(conta.saldo)
+
+			id_conta = Conta.buscarConta(listaDados[1], self.cursor)
+			listaValores = Conta.buscarValores(id_conta, self.cursor)
+			retorno = "{}".format(listaValores[0][1])
 			self.conexao.send(retorno.encode())
 
 		elif(listaDados[0] == '5'):	#Histórico
-			conta = self.banco.buscar(listaDados[1])
-			retorno = conta.historico.imprime()
+			id_conta = Conta.buscarConta(listaDados[1], self.cursor)
+			retorno = Historico.mostrarHistorico(id_conta, self.cursor)
 			self.conexao.send(retorno.encode())
-			print("Conta {} acessou historico".format(conta.titular.nome))
+			print("Conta de {} acessou historico".format(listaDados[1]))
 
 		elif(listaDados[0] == '6'):	#Depositar
-			conta = self.banco.buscar(listaDados[1])
-			conta.depositar(float(listaDados[2]))
+			id_conta = Conta.buscarConta(listaDados[1], self.cursor)
+			Conta.depositar(id_conta, float(listaDados[2]), self.cursor)
 			self.conexao.send("True".encode())
-			print("Conta {} realizou um deposito".format(conta.titular.nome))
+			print("Conta de {} realizou um deposito".format(listaDados[1]))
 
 		elif(listaDados[0] == '7'):	#Sacar
-			conta = self.banco.buscar(listaDados[1])
-			if(conta.autenticaSenha(listaDados[2])):
-				if(conta.saca(float(listaDados[3]))):
-					print("Conta {} realizou um saque".format(conta.titular.nome))
+			id_conta = Conta.buscarConta(listaDados[1], self.cursor)
+			if(Conta.autenticaSenha(id_conta, listaDados[2], self.cursor)):
+				if(Conta.saca(id_conta, float(listaDados[3]), self.cursor)):
+					print("Conta de {} realizou um saque".format(listaDados[1]))
 					self.conexao.send("True".encode())
 				else:
 					self.conexao.send("Valor inválido".encode())
@@ -127,19 +143,20 @@ class conexaoServidor(object):
 				print("Conta realizou saque mal-sucedido")
 
 		elif(listaDados[0] == '8'):	#Transferir
-			conta = self.banco.buscar(listaDados[1])
-			if(conta.autenticaSenha(listaDados[2])):
-				contaDestino = self.banco.buscar(listaDados[3])
-				if(contaDestino):
-					conta.transfere(contaDestino, float(listaDados[4]))
+			id_conta = Conta.buscarConta(listaDados[1], self.cursor)
+			if(Conta.autenticaSenha(id_conta, listaDados[2], self.cursor)):
+				id_contaDestino = Conta.buscarConta(listaDados[3], self.cursor)
+				if(id_contaDestino):
+					Conta.transferirConta(id_conta, id_contaDestino, float(listaDados[4]), self.cursor)
 					self.conexao.send("True".encode())
-					print("Conta {} realizou uma transferencia para {}".format(conta.titular.nome,contaDestino.titular.nome))
+					print("Conta de {} realizou uma transferencia para {}".format(listaDados[1], listaDados[3]))
 				else:
 					self.conexao.send("CPF não encontrado".encode())
 					print("Conta realizou transferencia mal-sucedida")
 			else:
 				self.conexao.send("Senha inválida".encode())
 				print("Conta realizou transferencia mal-sucedida")
+		bd.commit()
 
 
 	def fechar(self):
